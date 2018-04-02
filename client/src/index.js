@@ -9,6 +9,7 @@ import { watcherSaga } from "./sagas/sagas";
 
 import App from './components/app';
 import Signin from './components/auth/signin';
+import Signout from './components/auth/signout';
 import reducers from './reducers';
 
 const sagaMiddleware = createSagaMiddleware()
@@ -30,6 +31,7 @@ ReactDOM.render(
     <Router history={browserHistory}>
       <Route path="/" component={App} >
         <Route path="/signin" component={Signin} />
+        <Route path="/signout" component={Signout} />
       </Route>
     </Router>
   </Provider>

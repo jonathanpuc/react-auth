@@ -2,11 +2,11 @@ import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
 import { browserHistory } from 'react-router';
 
-import { AUTH_USER, AUTH_ERROR } from '../actions/types';
+import { SIGN_IN_REQUEST, AUTH_USER, AUTH_ERROR } from '../actions/types';
 
 
 export function* watcherSaga() {
-    yield takeLatest("SIGN_IN_REQUEST", workerSaga);
+    yield takeLatest(SIGN_IN_REQUEST, workerSaga);
 }
 
 function signin({ email, password }) {
@@ -23,14 +23,4 @@ function* workerSaga(action) {
     } catch (e) {
         yield put({ type: AUTH_ERROR, error: `${e.response.statusText}: incorrect credentials` })
     }
-    // Submit email/password to the server
-
-    // if request is good...
-
-    // - Update state ot indicate user is authenticated
-    // - Save the JWT token
-    // - Redirect to the route /feature
-
-    // If request is bad...
-    // - Show an error the user
 }
