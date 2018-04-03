@@ -3,11 +3,9 @@ import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import * as actions from '../../actions';
 
-class Signin extends Component {
 
-
+class Signup extends Component {
     render() {
-
         const { handleSubmit, errorMessage } = this.props;
 
         const renderInput = field =>
@@ -24,7 +22,6 @@ class Signin extends Component {
             }
         }
 
-
         return (
             <div>
                 <form onSubmit={handleSubmit(this.handleFormSubmit)}>
@@ -36,27 +33,31 @@ class Signin extends Component {
                         <label>Password:</label>
                         <Field name="password" component={renderInput} type="password" />
                     </fieldset>
+                    <fieldset className="form-group">
+                        <label>Confirm Password:</label>
+                        <Field name="passwordConfirm" component={renderInput} type="password" />
+                    </fieldset>
                     {renderError()}
-                    <button action="submit" className="btn btn-primary">Sign in</button>
+                    <button action="submit" className="btn btn-primary">Sign up</button>
                 </form>
             </div>
         )
     }
 
-    handleFormSubmit = ({ email, password }) => {
-        this.props.signinUser({ email, password })
+    handleFormSubmit = ({ email, password, passwordConfirm }) => {
+        this.props.signupUser({ email, password, passwordConfirm })
     }
 
 }
 
-const reduxFormSignin = reduxForm({
+const reduxFormSignup = reduxForm({
     form: 'signin',
-    fields: ['email', 'password']
-})(Signin);
+    fields: ['email', 'password', 'passwordConfirm']
+})(Signup);
 
 const mapStateToProps = (state) => ({
     errorMessage: state.auth.error
 })
 
-// Export wrapped Signin container with connect helper
-export default connect(mapStateToProps, actions)(reduxFormSignin);
+
+export default connect(mapStateToProps, actions)(reduxFormSignup);
