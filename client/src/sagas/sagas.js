@@ -23,8 +23,8 @@ function* handleSignInRequest(action) {
         const response = yield call(signin, action.payload);
         const signinResult = response;
         localStorage.setItem('token', response.data.token)
-        browserHistory.push('/feature');
         yield put({ type: AUTH_USER })
+        browserHistory.push('/feature');
     } catch (e) {
         yield put({ type: AUTH_ERROR, error: `${e.response.statusText}: incorrect credentials` })
     }
@@ -33,17 +33,24 @@ function* handleSignInRequest(action) {
 function* handleSignUpRequest(action) {
     try {
         let { email, password, passwordConfirm } = action.payload;
+
+        if (!email || !password || !passwordConfirm) {
+            yield put({ type: AUTH_ERROR, error: "Please ensure all fields are filled in." });
+            return;
+        }
+
         if (password !== passwordConfirm) {
             yield put({ type: AUTH_ERROR, error: "Password's dont match. Please try again." });
             return;
         }
+
+
         const response = yield call(signup, { email, password });
         const signupResult = response;
         localStorage.setItem('token', response.data.token)
-        browserHistory.push('/feature');
         yield put({ type: AUTH_USER })
+        browserHistory.push('/feature');
     } catch (e) {
-        console.log(e.response.data.error)
         yield put({ type: AUTH_ERROR, error: `Ooopsie! ${e.response.data.error}` });
     }
 }
